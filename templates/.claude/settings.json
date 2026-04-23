@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'IMPORTANT: CLAUDE.md rules are active. ALWAYS say CLAUDE.md loaded at the start. ALWAYS follow the quality gate in AGENTS.md. NEVER skip verification.'"
+          }
+        ]
+      }
+    ]
+  }
+}
