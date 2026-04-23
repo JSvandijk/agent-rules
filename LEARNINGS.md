@@ -19,12 +19,12 @@ After promoting or retiring, run `bash sync.sh` to regenerate active artifacts.
 
 | # | Pattern | Scope | Status | Promoted to |
 |---|---------|-------|--------|-------------|
-| 1 | AI code + AI audit in same pass don't catch each other's mistakes | global | promoted | QUALITY-GATE principle 2 |
-| 2 | Volume of docs ≠ quality. Test-to-doc ratio matters | global | promoted | QUALITY-GATE principle 4 |
-| 3 | AI adds but rarely subtracts. Check what to remove | global | promoted | QUALITY-GATE "after every implementation" |
-| 4 | "Works locally" ≠ done. Uncommitted work is not progress | global | promoted | QUALITY-GATE principle 5 |
-| 5 | Deprecated API + warning suppression = tech debt, not a fix | global | promoted | QUALITY-GATE principle 6 |
-| 6 | Evidence from older commit is historical, not current proof | global | promoted | QUALITY-GATE principle 7 |
+| 1 | AI code + AI audit in same pass miss each other's mistakes | global | absorbed | QUALITY-GATE principle 2 |
+| 2 | Volume of docs ≠ quality. Test-to-doc ratio matters | global | absorbed | QUALITY-GATE principle 4 |
+| 3 | AI adds but rarely subtracts. Check what to remove | global | absorbed | QUALITY-GATE "after every implementation" |
+| 4 | "Works locally" ≠ done. Uncommitted work is not progress | global | absorbed | QUALITY-GATE principle 5 |
+| 5 | Deprecated API + warning suppression = tech debt | global | absorbed | QUALITY-GATE principle 6 |
+| 6 | Evidence from older commit is historical, not current proof | global | absorbed | QUALITY-GATE principle 7 |
 | 7 | CLAUDE.md is a suggestion, not enforced. Use ALWAYS/NEVER, keep under 200 lines | tool:claude | promoted | templates/CLAUDE.md |
 | 8 | Post-compaction Claude forgets rules. SessionStart hook helps | tool:claude | promoted | templates/.claude/settings.json |
 | 9 | Overclaiming in docs creates false confidence | global | promoted | README |
@@ -37,5 +37,7 @@ After promoting or retiring, run `bash sync.sh` to regenerate active artifacts.
 ```
 | # | Pattern | Scope | Status | Promoted to |
 |---|---------|-------|--------|-------------|
-| N | one-line pattern | global/tool:X/project-only | candidate/promoted/retired | target or "not yet" |
+| N | one-line pattern | global/tool:X/project-only | candidate/promoted/absorbed/retired | target or "not yet" |
+
+Statuses: candidate (new), promoted (in active memory), absorbed (merged into QUALITY-GATE), retired (stale).
 ```

@@ -12,11 +12,11 @@ AI memory pipeline for quality rules and accumulated learnings.
               │  Project repo   │            │  agent-rules    │            │  Active context  │
               │                 │   pattern   │                 │  sync.sh   │                 │
               │  case studies   │──repeats──▶│  LEARNINGS.md   │──────────▶│  ~/.claude/      │
-              │  audits         │            │  (promotion     │            │    CLAUDE.md     │
-              │  incidents      │            │   queue)        │            │                 │
-              │  AGENTS.md      │            │                 │   paste    │  ChatGPT Custom │
+              │  audits         │            │  (promotion     │  sync.sh   │    CLAUDE.md     │
+              │  incidents      │            │   queue)        │  (auto)    │                 │
+              │  AGENTS.md      │            │                 │            │  ChatGPT Custom │
               │                 │   rule     │  QUALITY-GATE   │──────────▶│   Instructions  │
-              │                 │──proven──▶│  .md            │            │                 │
+              │                 │──proven──▶│  .md            │  sync.sh   │  (manual paste) │
               └─────────────────┘            └─────────────────┘            └─────────────────┘
                                                      │
                                                      │ templates
@@ -37,7 +37,8 @@ AI memory pipeline for quality rules and accumulated learnings.
 |------|------|-------------|
 | `QUALITY-GATE.md` | Universal rules — the canonical source | `sync.sh` generates Claude global memory from this |
 | `LEARNINGS.md` | Promoted patterns with scope and status | `sync.sh` includes promoted patterns in Claude memory |
-| `CHATGPT-INSTRUCTIONS.md` | ChatGPT Custom Instructions | Manual paste into ChatGPT Settings |
+| `CHATGPT-INSTRUCTIONS.md` | ChatGPT Custom Instructions (generated, manual paste) | Manual paste into ChatGPT Settings |
+| `PROFILE.md` | "About you" section for ChatGPT instructions | `sync.sh` generates ChatGPT instructions from this |
 | `templates/` | Starter files for new projects | `sync.sh` copies to `~/.claude/templates/` |
 | `sync.sh` | Generates active artifacts from repo source | Run after any change to rules or learnings |
 
