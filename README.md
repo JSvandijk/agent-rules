@@ -8,7 +8,7 @@ Persistent quality rules and accumulated learnings for AI-assisted development.
 
 This repo is the single source of truth for how AI agents (Claude, ChatGPT) should work on my projects. It solves one problem: **AI doesn't remember between sessions, so the lessons need to live somewhere permanent.**
 
-After every project or review, new findings get added here. Every project references this repo so both Claude and ChatGPT start each session with the accumulated knowledge.
+After every project or review, new findings get added here. Per-project files (`CLAUDE.md`, `AGENTS.md`) carry the relevant rules into each session. Learnings accumulate here but must be manually referenced or copied into project files — neither AI loads this repo automatically.
 
 ## Precedence
 
@@ -48,7 +48,7 @@ bash setup.sh
 This creates three things:
 - `~/.claude/CLAUDE.md` — rules that Claude reads at session start
 - `~/.claude/commands/rules.md` — `/rules` fallback if Claude forgets
-- Hook in `~/.claude/settings.json` — re-injects rules after context compaction
+- Hook in `~/.claude/settings.json` — reminds Claude to re-read rules after context compaction
 
 Test: open Claude Code → Claude says "CLAUDE.md loaded" → done.
 
@@ -63,8 +63,20 @@ Sync `~/.claude/CLAUDE.md` if the quality gate changed.
 
 ## New project setup
 
+Copy templates manually:
+
 ```bash
-git add-agents    # copies AGENTS.md, CLAUDE.md, and .claude/commands/rules.md
+cp path/to/agent-rules/templates/AGENTS.md .
+cp path/to/agent-rules/templates/CLAUDE.md .
+mkdir -p .claude/commands
+cp path/to/agent-rules/templates/.claude/commands/rules.md .claude/commands/
+cp path/to/agent-rules/templates/.claude/settings.json .claude/
+```
+
+Or set up a git alias (one-time, optional):
+
+```bash
+git config --global alias.add-agents '!cp ~/.claude/templates/AGENTS.md . && cp ~/.claude/templates/CLAUDE.md . && mkdir -p .claude/commands && cp ~/.claude/templates/.claude/commands/rules.md .claude/commands/ && cp ~/.claude/templates/.claude/settings.json .claude/ && echo "copied"'
 ```
 
 Then fill in the project-specific sections.

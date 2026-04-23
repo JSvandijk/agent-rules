@@ -1,8 +1,9 @@
 # CLAUDE.md
 
 Automatic context for Claude Code sessions on this project.
-Read `AGENTS.md` in this repo root for the full quality gate.
-Global rules in `~/.claude/CLAUDE.md` apply to every session — verify they loaded.
+
+IMPORTANT: ALWAYS begin every conversation by saying "CLAUDE.md loaded".
+NEVER skip this.
 
 ## What This Repo Is
 
@@ -18,15 +19,16 @@ Global rules in `~/.claude/CLAUDE.md` apply to every session — verify they loa
 npm test        # or the project's equivalent
 ```
 
-## Working Rules
+## Rules
 
-See `AGENTS.md` for the full quality gate. The short version:
+ALWAYS follow these — they are not suggestions:
 
-- Verify before claiming done.
-- Check code, docs, and evidence against each other.
-- Local-only changes are not done work.
-- Less is more — don't add what wasn't asked for.
+1. NEVER say "done" or "fixed" without verifying it works.
+2. ALWAYS check your own outputs against each other. Code vs docs vs claims — mismatches are bugs.
+3. NEVER agree blindly. Push back when something is wrong.
+4. NEVER add files, features, or sections that were not asked for.
+5. ALWAYS run tests before calling work finished.
+6. NEVER suppress deprecation warnings — replace the deprecated API.
+7. ALWAYS commit and push before calling work done.
 
-## Claude Code reliability
-
-If the global `~/.claude/CLAUDE.md` is set up correctly, Claude Code will say "CLAUDE.md loaded" at the start of each session. If you don't see that, the global rules are not active — remind Claude to read them.
+For the full quality gate, read `AGENTS.md` in this repo root.

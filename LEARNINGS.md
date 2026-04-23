@@ -25,8 +25,10 @@ After each project or review, add a new entry here.
 ### Fixes applied
 
 - Updated `~/.claude/CLAUDE.md` with mandatory acknowledgment line at top
-- Made all rule phrasing directive/imperative
-- Added Claude Code reliability section to QUALITY-GATE.md
+- Made all rule phrasing directive/imperative (ALWAYS/NEVER)
+- Added `/rules` slash command as manual fallback (`~/.claude/commands/rules.md`)
+- Added post-compaction SessionStart hook to re-remind Claude of rules
+- Kept QUALITY-GATE.md tool-agnostic; Claude-specific workarounds live in templates
 
 ---
 
