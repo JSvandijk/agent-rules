@@ -31,4 +31,4 @@ ALWAYS follow these — they are not suggestions:
 6. NEVER suppress deprecation warnings — replace the deprecated API.
 7. ALWAYS commit and push before calling work done.
 
-For the full quality gate, read `AGENTS.md` in this repo root.
+@AGENTS.md

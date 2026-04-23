@@ -8,30 +8,34 @@ Reusable patterns from AI-assisted projects. This is a promotion queue, not an a
 
 - **1x seen** → stays in the project repo only
 - **2x seen** → add here as a short pattern
-- **Keeps recurring** → promote to QUALITY-GATE.md, templates, or global CLAUDE.md
+- **Keeps recurring** → promote to QUALITY-GATE.md, templates, or global ~/.claude/CLAUDE.md
+- **Stale** → retire if not seen in 3+ projects
+
+After promoting or retiring, run `bash sync.sh` to regenerate active artifacts.
 
 ---
 
 ## Patterns
 
-| # | Pattern | First seen | Promoted? |
-|---|---------|-----------|-----------|
-| 1 | AI code + AI audit in the same pass don't catch each other's mistakes. External review needed. | t3code-mobile | → QUALITY-GATE principle 2 |
-| 2 | Volume of docs ≠ quality. Ratio of tests to docs matters. | t3code-mobile | → QUALITY-GATE principle 4 |
-| 3 | AI adds but rarely subtracts. Explicitly check for things to remove. | t3code-mobile | → QUALITY-GATE "after every implementation" |
-| 4 | "Works locally" ≠ done. Uncommitted work is not progress. | t3code-mobile | → QUALITY-GATE principle 5 |
-| 5 | Deprecated API + warning suppression = tech debt, not a fix. | t3code-mobile | → QUALITY-GATE principle 6 |
-| 6 | Evidence from an older commit is historical, not current proof. | t3code-mobile | → QUALITY-GATE principle 7 |
-| 7 | CLAUDE.md is loaded as a suggestion, not enforced. Use ALWAYS/NEVER, keep under 200 lines. | agent-rules | → templates/CLAUDE.md |
-| 8 | Post-compaction, Claude forgets rules. SessionStart hook helps. | agent-rules | → templates/.claude/settings.json |
-| 9 | Overclaiming in docs creates false confidence. Say what is actually true. | agent-rules | → fixed in README |
+| # | Pattern | Scope | Status | Promoted to |
+|---|---------|-------|--------|-------------|
+| 1 | AI code + AI audit in same pass don't catch each other's mistakes | global | promoted | QUALITY-GATE principle 2 |
+| 2 | Volume of docs ≠ quality. Test-to-doc ratio matters | global | promoted | QUALITY-GATE principle 4 |
+| 3 | AI adds but rarely subtracts. Check what to remove | global | promoted | QUALITY-GATE "after every implementation" |
+| 4 | "Works locally" ≠ done. Uncommitted work is not progress | global | promoted | QUALITY-GATE principle 5 |
+| 5 | Deprecated API + warning suppression = tech debt, not a fix | global | promoted | QUALITY-GATE principle 6 |
+| 6 | Evidence from older commit is historical, not current proof | global | promoted | QUALITY-GATE principle 7 |
+| 7 | CLAUDE.md is a suggestion, not enforced. Use ALWAYS/NEVER, keep under 200 lines | tool:claude | promoted | templates/CLAUDE.md |
+| 8 | Post-compaction Claude forgets rules. SessionStart hook helps | tool:claude | promoted | templates/.claude/settings.json |
+| 9 | Overclaiming in docs creates false confidence | global | promoted | README |
+| 10 | @AGENTS.md import in CLAUDE.md auto-loads the quality gate | tool:claude | promoted | templates/CLAUDE.md |
 
 ---
 
 ## Template
 
 ```
-| # | Pattern | First seen | Promoted? |
-|---|---------|-----------|-----------|
-| N | one-line failure mode or lesson | project-name | → where it was promoted, or "not yet" |
+| # | Pattern | Scope | Status | Promoted to |
+|---|---------|-------|--------|-------------|
+| N | one-line pattern | global/tool:X/project-only | candidate/promoted/retired | target or "not yet" |
 ```
