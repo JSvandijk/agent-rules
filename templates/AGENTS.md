@@ -20,6 +20,7 @@ These are mandatory steps before calling work complete.
 ### 1. Security Sweep
 
 - Check every HTTP response, log line, startup banner, and console output for filesystem paths, secrets, tokens, config values, and internal state.
+- Tie every security finding to a concrete threat model. Distinguish operator-only output (stdout, local logs) from network-reachable output (HTTP endpoints, response headers). Do not file a finding if you cannot answer: who sees this, how, and what does it give an attacker?
 - Check every HTML template for unescaped dynamic values.
 - Verify security headers (CSP, CORS, etc.) on every response path.
 - Review every cache layer for sensitive data exposure.
@@ -58,6 +59,13 @@ These are mandatory steps before calling work complete.
 - Ask: "What would a hostile reviewer attack first?"
 - Fix the strongest known weakness before closing.
 - If unfixable, call it out explicitly as an open risk.
+
+### 7. Rule Placement
+
+- Before editing a rule or learning, ask: "Is this a canonical change or a downstream change?"
+- Canonical changes go to `QUALITY-GATE.md` or `LEARNINGS.md` in the `agent-rules` repo.
+- Project-specific changes go to `AGENTS.md` in that project.
+- Never edit downstream when the change belongs upstream.
 
 ## Review Priorities
 

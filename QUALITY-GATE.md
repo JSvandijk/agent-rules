@@ -21,6 +21,7 @@ Universal rules for AI-assisted development. These apply to every project regard
 - Check every cache layer for sensitive data exposure
 - Check every buffer/stream for size limits
 - Don't silently swallow errors: `catch (e) { /* ignore */ }` is almost always wrong
+- Tie every security finding to a concrete threat model. Distinguish operator-only output (stdout, local logs) from network-reachable output (HTTP endpoints, response headers). Do not file a finding if you cannot answer: who sees this, how, and what does it give an attacker?
 
 ## After every implementation
 
@@ -28,6 +29,7 @@ Universal rules for AI-assisted development. These apply to every project regard
 - Adversarial pass: "what would a hostile reviewer attack first?"
 - Check for dead code or legacy files that should have been removed
 - Check if new additions mean something old should be deleted
+- Before editing a rule or learning, ask: "Is this a canonical change or a downstream change?" Canonical changes go to QUALITY-GATE.md or LEARNINGS.md in the agent-rules repo. Project-specific changes go to AGENTS.md in that project. Never edit downstream when the change belongs upstream.
 
 ## Definition of done
 
