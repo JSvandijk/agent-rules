@@ -1,52 +1,40 @@
 # agent-rules
 
-AI memory pipeline for quality rules and accumulated learnings.
+Claude-first AI memory pipeline with ChatGPT Project support.
 
 > **This repo is public.** No emails, passwords, tokens, API keys, absolute local file paths, or personal data.
 
 ## How it works: Capture → Promote → Hydrate
 
 ```
-                    CAPTURE                          PROMOTE                         HYDRATE
-              ┌─────────────────┐            ┌─────────────────┐            ┌─────────────────┐
-              │  Project repo   │            │  agent-rules    │            │  Active context  │
-              │                 │   pattern   │                 │  sync.sh   │                 │
-              │  case studies   │──repeats──▶│  LEARNINGS.md   │──────────▶│  ~/.claude/      │
-              │  audits         │            │  (promotion     │  sync.sh   │    CLAUDE.md     │
-              │  incidents      │            │   queue)        │  (auto)    │                 │
-              │  AGENTS.md      │            │                 │            │  ChatGPT Custom │
-              │                 │   rule     │  QUALITY-GATE   │──────────▶│   Instructions  │
-              │                 │──proven──▶│  .md            │  sync.sh   │  (manual paste) │
-              └─────────────────┘            └─────────────────┘            └─────────────────┘
-                                                     │
-                                                     │ templates
-                                                     ▼
-                                              ┌─────────────────┐
-                                              │  New project    │
-                                              │  CLAUDE.md      │
-                                              │   └ @AGENTS.md  │
-                                              │  .claude/       │
-                                              │   ├ settings    │
-                                              │   └ commands    │
-                                              └─────────────────┘
+        CAPTURE                        PROMOTE                        HYDRATE
+  ┌─────────────────┐           ┌─────────────────┐           ┌─────────────────┐
+  │  Project repo   │           │  agent-rules    │           │                 │
+  │                 │  pattern   │                 │  sync.sh   │  Claude:        │
+  │  case studies   │──repeats─▶│  LEARNINGS.md   │──(auto)──▶│  ~/.claude/     │
+  │  audits         │           │  (queue)        │           │    CLAUDE.md    │
+  │  AGENTS.md      │           │                 │           │                 │
+  │                 │  rule      │  QUALITY-GATE   │  sync.sh   │  ChatGPT:       │
+  │                 │──proven──▶│  .md            │──(gen)───▶│  Project file   │
+  │                 │           │                 │           │  (upload once)  │
+  └─────────────────┘           └─────────────────┘           └─────────────────┘
 ```
 
 ## What each file does
 
 | File | Role | Consumed by |
 |------|------|-------------|
-| `QUALITY-GATE.md` | Universal rules — the canonical source | `sync.sh` generates Claude global memory from this |
-| `LEARNINGS.md` | Promoted patterns with scope and status | `sync.sh` includes promoted patterns in Claude memory |
-| `CHATGPT-INSTRUCTIONS.md` | ChatGPT Custom Instructions (generated, manual paste) | Manual paste into ChatGPT Settings |
-| `PROFILE.md` | "About you" section for ChatGPT instructions | `sync.sh` generates ChatGPT instructions from this |
+| `QUALITY-GATE.md` | Universal rules — canonical source | `sync.sh` generates all active artifacts from this |
+| `LEARNINGS.md` | Promoted patterns with scope and status | `sync.sh` includes promoted patterns |
+| `PROFILE.md` | User context for ChatGPT | `sync.sh` generates ChatGPT project file from this |
+| `CHATGPT-PROJECT.md` | Generated context file for ChatGPT Projects | Upload into a ChatGPT Project |
+| `CHATGPT-INSTRUCTIONS.md` | Generated Custom Instructions (optional fallback) | Manual paste into ChatGPT Settings |
 | `templates/` | Starter files for new projects | `sync.sh` copies to `~/.claude/templates/` |
-| `sync.sh` | Generates active artifacts from repo source | Run after any change to rules or learnings |
-
-## Precedence
-
-Project rules override global rules where they add repo-specific context. The global quality gate remains the baseline. Tool-specific workarounds live in templates, not in the universal gate.
+| `sync.sh` | Generates all active artifacts from source | Run after any change |
 
 ## Quick start
+
+### Claude Code
 
 ```bash
 git clone https://github.com/JSvandijk/agent-rules.git
@@ -54,30 +42,20 @@ cd agent-rules
 bash sync.sh
 ```
 
-This generates:
-- `~/.claude/CLAUDE.md` ← built from QUALITY-GATE.md + promoted LEARNINGS.md
-- `~/.claude/commands/rules.md` ← `/rules` fallback
-- `~/.claude/settings.json` ← post-compaction hook
-- `~/.claude/templates/` ← project starter files
+Generates `~/.claude/CLAUDE.md` from source. Automatic — every new session reads it.
 
-Test: open Claude Code → Claude says "CLAUDE.md loaded" → working.
+### ChatGPT
 
-## After changes
+1. Run `bash sync.sh` (generates `CHATGPT-PROJECT.md`)
+2. In ChatGPT, create a Project (e.g. "Agent Rules")
+3. Upload `CHATGPT-PROJECT.md` into that Project
+4. Work inside that Project — every new chat has the rules automatically
 
-```bash
-# Edit QUALITY-GATE.md or LEARNINGS.md, then:
-bash sync.sh    # regenerates active artifacts
-```
+When rules change: run `sync.sh`, re-upload `CHATGPT-PROJECT.md` into the Project.
 
-## ChatGPT setup
-
-Paste `CHATGPT-INSTRUCTIONS.md` content into ChatGPT > Settings > Custom Instructions.
-This is manual — ChatGPT has no auto-sync mechanism.
-
-## New project setup
+### Per project
 
 ```bash
-# From any project directory:
 cp path/to/agent-rules/templates/AGENTS.md .
 cp path/to/agent-rules/templates/CLAUDE.md .
 mkdir -p .claude/commands
@@ -85,18 +63,39 @@ cp path/to/agent-rules/templates/.claude/commands/rules.md .claude/commands/
 cp path/to/agent-rules/templates/.claude/settings.json .claude/
 ```
 
-Then fill in the project-specific sections. `CLAUDE.md` uses `@AGENTS.md` to auto-import the quality gate.
+`CLAUDE.md` uses `@AGENTS.md` to auto-import the quality gate.
+
+## After changes
+
+```bash
+# Edit QUALITY-GATE.md, LEARNINGS.md, or PROFILE.md, then:
+bash sync.sh    # regenerates all active artifacts
+```
+
+## Precedence
+
+Project rules override global rules where they add repo-specific context. The global quality gate remains the baseline.
 
 ## If Claude doesn't load CLAUDE.md
 
 1. Claude won't say "CLAUDE.md loaded" → rules not active
 2. Type `/memory` to check what's loaded
 3. Type `/rules` to force-load rules
-4. If nothing works, check file path: `~/.claude/CLAUDE.md`
+
+## How memory works for each AI
+
+| | Claude | ChatGPT |
+|---|--------|---------|
+| **Hydration** | Automatic — `sync.sh` generates `~/.claude/CLAUDE.md`, Claude reads it at session start | Project-based — upload `CHATGPT-PROJECT.md` into a ChatGPT Project |
+| **Scope** | Every session in every project | Every chat inside that Project |
+| **When rules change** | Run `sync.sh` | Run `sync.sh`, re-upload file into Project |
+| **Outside scope** | Other AI tools won't see it | Chats outside the Project won't see it |
+| **Enforcement** | Suggestion (hooks for hard enforcement) | Suggestion only |
 
 ## Limitations
 
-- **CLAUDE.md is a suggestion, not enforcement.** Claude may ignore it. Hooks are the only hard enforcement.
-- **ChatGPT requires manual paste.** No API or sync exists for Custom Instructions.
-- **Post-compaction hook is a reminder, not a reload.** It tells Claude to re-read rules; it cannot force it.
-- **Learnings don't auto-propagate.** Run `sync.sh` after changes to regenerate active artifacts.
+- **CLAUDE.md is a suggestion, not enforcement.** Hooks are the only hard enforcement.
+- **ChatGPT Project context is automatic within the Project** but chats outside the Project don't see it.
+- **Re-uploading after rule changes is manual.** There is no API to auto-update ChatGPT Project files.
+- **Post-compaction hook is a reminder, not a reload.** It asks Claude to re-read; it cannot force it.
+- **Learnings don't auto-propagate.** Run `sync.sh` after changes.
