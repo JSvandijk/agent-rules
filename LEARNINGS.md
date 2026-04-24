@@ -10,6 +10,8 @@ Reusable patterns from AI-assisted projects. This is a promotion queue, not an a
 - **2x seen** → add here as a short pattern
 - **Keeps recurring** → promote to QUALITY-GATE.md, templates, or global ~/.claude/CLAUDE.md
 - **Stale** → retire if not seen in 3+ projects
+- **Process rules** → if an incident leads to a new working rule (not just an observation), propose adding it directly to QUALITY-GATE.md — don't wait for 2x. Cite the incident.
+- **Proactive suggestions** → AI agents should proactively propose new learnings or promotions when they recognize patterns or process gaps, including importance judgments. The user decides yes or no.
 
 After promoting or retiring, run `bash sync.sh` to regenerate active artifacts.
 

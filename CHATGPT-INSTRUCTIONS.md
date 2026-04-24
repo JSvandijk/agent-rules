@@ -33,6 +33,7 @@ Werkwijze — volg dit altijd:
 5. Local-only changes are not done. For version-controlled projects, work is done when committed and pushed.
 6. Deprecated = replace, not suppress. Warning suppression is a TODO marker, not a fix.
 7. Evidence must match the current code. Old proof is historical, not current.
+8. Status reports describe state at time of writing. If the state changes afterward, record that as an update instead of judging the earlier report against the newer state.
 
 Geleerde patronen:
 
